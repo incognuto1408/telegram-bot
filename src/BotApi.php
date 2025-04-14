@@ -1467,6 +1467,7 @@ class BotApi
      * @param int|null $messageThreadId
      * @param bool|null $protectContent
      * @param bool|null $allowSendingWithoutReply
+     * @param bool|null $has_spoiler
      * @param ReplyParameters|null $replyParameters Description of the message to reply to.
      *
      * @return Message
@@ -1484,31 +1485,20 @@ class BotApi
         $messageThreadId = null,
         $protectContent = null,
         $allowSendingWithoutReply = null,
-        $replyParameters = null
+        $has_spoiler = false
     ) {
-        if (null !== $replyToMessageId || null !== $allowSendingWithoutReply) {
-            @trigger_error(
-                'setting $replyToMessageId or $allowSendingWithoutReply is now deprecated use $replyParameters instead',
-                E_USER_DEPRECATED
-            );
-
-            $replyParameters = new ReplyParameters();
-            $replyParameters->map([
-                'message_id' => $replyToMessageId,
-                'allow_sending_without_reply' => (bool) $allowSendingWithoutReply
-            ]);
-        }
-
         return Message::fromResponse($this->call('sendPhoto', [
             'chat_id' => $chatId,
             'photo' => $photo,
             'caption' => $caption,
             'message_thread_id' => $messageThreadId,
+            'reply_to_message_id' => $replyToMessageId,
             'reply_markup' => is_null($replyMarkup) ? $replyMarkup : $replyMarkup->toJson(),
             'disable_notification' => (bool) $disableNotification,
             'parse_mode' => $parseMode,
             'protect_content' => (bool) $protectContent,
-            'reply_parameters' => is_null($replyParameters) ? $replyParameters : $replyParameters->toJson()
+            'allow_sending_without_reply' => (bool) $allowSendingWithoutReply,
+            'has_spoiler' => (bool) $has_spoiler,
         ]));
     }
 
