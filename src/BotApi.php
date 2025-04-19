@@ -1275,7 +1275,6 @@ class BotApi
             'reply_parameters' => is_null($replyParameters) ? $replyParameters : $replyParameters->toJson()
         ]));
     }
-
     /**
      * Use this method to send audio files,
      * if you want Telegram clients to display the file as a playable voice message.
@@ -1315,7 +1314,7 @@ class BotApi
         $messageThreadId = null,
         $protectContent = null,
         $replyParameters = null
-    ) {
+    ) {/*
         if (null !== $replyToMessageId || null !== $allowSendingWithoutReply) {
             @trigger_error(
                 'setting $replyToMessageId or $allowSendingWithoutReply is now deprecated use $replyParameters instead',
@@ -1327,8 +1326,7 @@ class BotApi
                 'message_id' => $replyToMessageId,
                 'allow_sending_without_reply' => (bool) $allowSendingWithoutReply
             ]);
-        }
-
+        }*/
         return Message::fromResponse($this->call('sendVoice', [
             'chat_id' => $chatId,
             'voice' => $voice,
